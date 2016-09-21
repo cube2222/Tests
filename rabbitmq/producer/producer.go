@@ -20,14 +20,19 @@ func main() {
 		log.Fatal(err)
 	}
 
+	err = ch.ExchangeDeclare("myeventexchange", "direct", true, false, false, false, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	body := "Hello World!!!"
 
-	ticker := time.Tick(time.Millisecond)
+	ticker := time.Tick(time.Second)
 
 	n := 0
 
 	for range ticker {
-		err := ch.Publish("", "test", false, false, amqp.Publishing{
+		err := ch.Publish("myeventexchange", os.Args[2], false, false, amqp.Publishing{
 			ContentType: "text/plain",
 			Body: []byte(fmt.Sprintf("Message number %v: %s", n, body)),
 		})

@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/dancannon/gorethink"
 	"log"
+
+	"github.com/dancannon/gorethink"
 )
 
 type User struct {
@@ -21,7 +22,7 @@ func main() {
 	defer session.Close()
 
 	_, err = gorethink.DB("application").Table("users").Get("xyzbaac").Update(map[string]interface{}{
-		"age": 25,
+		"age": 22,
 	}).RunWrite(session)
 	if err != nil {
 		log.Fatal(err)
